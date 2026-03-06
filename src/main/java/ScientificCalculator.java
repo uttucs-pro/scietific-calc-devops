@@ -104,7 +104,7 @@ public class ScientificCalculator {
 
                 case 5: // Exit
                     running = false;
-                    System.out.println("Thank you for using the Scientific Calculator. Goodbye!");
+                    System.out.println("Thank you for using the Scientific Calculator. Goodbye! Have a nice day!");
                     break;
 
                 default:
