@@ -33,4 +33,32 @@ pipeline {
             }
         }
     }
+
+    post {
+
+        success {
+            mail to: 'utkspare@gmail.com',
+                 subject: "Jenkins SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                 body: """
+Pipeline completed successfully.
+
+Job: ${env.JOB_NAME}
+Build: ${env.BUILD_NUMBER}
+URL: ${env.BUILD_URL}
+"""
+        }
+
+        failure {
+            mail to: 'utkspare@gmail.com',
+                 subject: "Jenkins FAILURE: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                 body: """
+Pipeline failed.
+
+Job: ${env.JOB_NAME}
+Build: ${env.BUILD_NUMBER}
+URL: ${env.BUILD_URL}
+"""
+        }
+
+    }
 }
