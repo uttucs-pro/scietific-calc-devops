@@ -1,0 +1,12 @@
+- hosts: servers
+  become: true
+
+  tasks:
+
+    - name: Run Calculator Container
+      docker_container:
+        name: scientific-calculator
+        image: uttucs/scientific-calculator:latest
+        state: started
+        tty: true
+        interactive: true
