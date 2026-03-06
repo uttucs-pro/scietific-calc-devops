@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    environment {
+        DOCKER_IMAGE = "uttucs/scientific-calculator"
+    }
+
     stages {
 
         stage('Clone Repository') {
@@ -23,13 +27,19 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t uttucs/scientific-calculator .'
+                sh 'docker build -t $DOCKER_IMAGE .'
             }
         }
 
         stage('Push Docker Image') {
             steps {
-                sh 'docker push uttucs/scientific-calculator'
+                sh 'docker push $DOCKER_IMAGE'
+            }
+        }
+
+        stage('Deploy with Ansible') {
+            steps {
+                sh 'ansible-playbook -i ansible/hosts ansible/deploy.yml'
             }
         }
     }
@@ -40,11 +50,13 @@ pipeline {
             mail to: 'utkspare@gmail.com',
                  subject: "Jenkins SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
                  body: """
-Pipeline completed successfully.
+Build completed successfully.
 
 Job: ${env.JOB_NAME}
-Build: ${env.BUILD_NUMBER}
-URL: ${env.BUILD_URL}
+Build Number: ${env.BUILD_NUMBER}
+
+Check details:
+${env.BUILD_URL}
 """
         }
 
@@ -52,13 +64,14 @@ URL: ${env.BUILD_URL}
             mail to: 'utkspare@gmail.com',
                  subject: "Jenkins FAILURE: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
                  body: """
-Pipeline failed.
+Build failed.
 
 Job: ${env.JOB_NAME}
-Build: ${env.BUILD_NUMBER}
-URL: ${env.BUILD_URL}
+Build Number: ${env.BUILD_NUMBER}
+
+Check logs:
+${env.BUILD_URL}
 """
         }
-
     }
 }
