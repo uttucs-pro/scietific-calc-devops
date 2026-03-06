@@ -5,7 +5,7 @@ pipeline {
 
         stage('Clone Repository') {
             steps {
-                git 'https://github.com/uttucs-pro/scietific-calc-devops.git'
+                git 'https://github.com/uttucs-pro/scietific-calc-devops'
             }
         }
 
