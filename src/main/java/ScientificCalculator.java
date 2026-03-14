@@ -104,7 +104,7 @@ public class ScientificCalculator {
 
                 case 5: // Exit
                     running = false;
-                    System.out.println("Thank you for using the Scientific Calculator. Goodbye! Have a nice day!");
+                    System.out.println("Thank you for using the Scientific Calculator. Goodbye! Have a nice day! Webhook Trigger 1");
                     break;
 
                 default:
